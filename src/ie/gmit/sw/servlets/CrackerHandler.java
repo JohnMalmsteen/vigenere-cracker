@@ -62,7 +62,7 @@ public class CrackerHandler extends HttpServlet {
 		
 			//Add job to in-queue
 			inQueue.add(newJob);
-			
+			out.print("<img src=\"images/loading.gif\">");
 			out.print("<form name=\"frmCracker\">");
 			out.print("<input name=\"frmMaxKeyLength\" type=\"hidden\" value=\"" + maxKeyLength + "\">");
 			out.print("<input name=\"frmCypherText\" type=\"hidden\" value=\"" + cypherText + "\">");
@@ -83,6 +83,9 @@ public class CrackerHandler extends HttpServlet {
 				out.print("</html>");	
 				outQueue.remove(taskNumber);
 			}else{
+				
+				out.print("<img src=\"images/loading.gif\">");
+				
 				out.print("<form name=\"frmCracker\">");
 				out.print("<input name=\"frmMaxKeyLength\" type=\"hidden\" value=\"" + maxKeyLength + "\">");
 				out.print("<input name=\"frmCypherText\" type=\"hidden\" value=\"" + cypherText + "\">");
@@ -95,24 +98,6 @@ public class CrackerHandler extends HttpServlet {
 				out.print("</script>");
 			}
 		}
-				
-		/*-----------------------------------------------------------------------     
-		 *  Next Steps: just in case you removed the above....
-		 *-----------------------------------------------------------------------
-		 * 1) Generate a big random number to use a a job number, or just increment a static long variable declared at a class level, e.g. jobNumber
-		 * 2) Create some type of a "message request" object from the maxKeyLength, cypherText and jobNumber.
-		 * 3) Add the "message request" object to a LinkedList or BlockingQueue (the IN-queue)
-		 * 4) Return the jobNumber to the client web browser with a wait interval using <meta http-equiv="refresh" content="10">. The content="10" will wait for 10s.
-		 * 4) Have some process check the LinkedList or BlockingQueue for "message requests" 
-		 * 5) Poll a "message request" from the front of the queue and make an RMI call to the Vigenere Cypher Service
-		 * 6) Get the result and add to a Map (the OUT-queue) using the jobNumber and the key and the result as a value
-		 * 7) Return the cyphertext to the client next time a request for the jobNumber is received and delete the key / value pair from the Map.
-		 */
-		
-		//You can use this method to implement the functionality of an RMI client
-		
-		//
-		
 	}
 
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
