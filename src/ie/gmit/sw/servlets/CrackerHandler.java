@@ -15,16 +15,13 @@ public class CrackerHandler extends HttpServlet {
 	private static long jobNumber = 0;
 	private static OutQueue outQueue = new OutQueueImpl();
 	private static InQueue inQueue = new InQueueImpl();
-	private static int threadCount = 10;
+	private static int threadCount = 50;
 	private static ExecutorService pool;
 	
 	public void init() throws ServletException {
 		ServletContext ctx = getServletContext();
 		remoteHost = ctx.getInitParameter("RMI_SERVER"); //Reads the value from the <context-param> in web.xml
 		pool = Executors.newFixedThreadPool(threadCount);
-		for (int i =0; i<threadCount; i++){
-       		pool.submit(new Worker(outQueue, inQueue, remoteHost));
-   		}
 	}
 
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -58,10 +55,13 @@ public class CrackerHandler extends HttpServlet {
 			jobNumber++;
 			
 			QueueMessage newJob = new QueueMessage(taskNumber, maxKeyLength, cypherText);
-			
-		
+
 			//Add job to in-queue
-			inQueue.add(newJob);
+			//inQueue.add(newJob);
+			
+			// I have deprecated the InQueue since the ExecutorService already takes care of this. It has a functional queue length of Integer.MaxValue
+			pool.submit(new Worker(newJob, outQueue, remoteHost));
+			
 			out.print("<img src=\"images/loading.gif\">");
 			out.print("<form name=\"frmCracker\">");
 			out.print("<input name=\"frmMaxKeyLength\" type=\"hidden\" value=\"" + maxKeyLength + "\">");
@@ -79,6 +79,7 @@ public class CrackerHandler extends HttpServlet {
 			if(outQueue.containsKey(taskNumber)){
 				//print out result
 				out.print("<p>PlainText: " + outQueue.get(taskNumber).getCypherText() + "</p>");
+				out.print("<button onclick=\"location.href = '/Cracker';\" id=\"myButton\" class=\"float-left submit-button\" >Home</button>");
 				out.print("</body>");	
 				out.print("</html>");	
 				outQueue.remove(taskNumber);
