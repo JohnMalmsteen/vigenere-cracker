@@ -19,7 +19,10 @@
 					<textarea name="frmCypherText" rows="10" cols="100"  wrap="soft"></textarea>	
 					<p/>
 
-
+					<b>Connection Type:</b><br>
+					<input type="radio" name="frmConnectionType" value="RMI" checked>RMI<br>
+					<input type="radio" name="frmConnectionType" value="CORBA">CORBA<br>
+					
 					<center><input type="submit" value="Crack Cypher"></center>
 				</fieldset>							
 			</form>	

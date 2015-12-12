@@ -10,18 +10,18 @@ import ie.gmit.sw.server.queue.InQueue;
 import ie.gmit.sw.server.queue.OutQueue;
 import ie.gmit.sw.server.queue.QueueMessage;
 
-public class Worker implements Runnable {
+public class RMIWorker implements Runnable {
 	private QueueMessage message;
 	private OutQueue outQueue;
 	private String remoteHost;
 	
-	public Worker(QueueMessage mess, OutQueue out, String host){
+	public RMIWorker(QueueMessage mess, OutQueue out, String host){
 		this.message = mess;
 		this.outQueue = out;
 		this.remoteHost = host;
 	}
 	
-	public Worker(OutQueue out, InQueue in, String host){
+	public RMIWorker(OutQueue out, InQueue in, String host){
 		this.outQueue = out;
 		this.remoteHost = host;
 	}
