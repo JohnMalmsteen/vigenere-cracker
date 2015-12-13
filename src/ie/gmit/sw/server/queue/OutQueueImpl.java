@@ -1,16 +1,18 @@
 package ie.gmit.sw.server.queue;
 import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import ie.gmit.sw.server.threads.AbandonedMessageCollector;
 
 public class OutQueueImpl implements OutQueue {
 	private Map<String, QueueMessage> outQueue =  new TreeMap<String, QueueMessage>();
 	private AbandonedMessageCollector gc;
+	private ScheduledExecutorService executor = Executors.newScheduledThreadPool(5);
 	
 	public OutQueueImpl(){
-		gc = new AbandonedMessageCollector(this);
-		Thread t = new Thread(gc);
-		t.start();
+		executor.scheduleAtFixedRate(new AbandonedMessageCollector(this), 60, 60, TimeUnit.SECONDS);
 	}
 	
 	public Set<String> keySet() {
