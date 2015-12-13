@@ -62,9 +62,14 @@ public class RMIWorker implements Runnable {
 			vb = (VigenereBreaker)Naming.lookup("//" + remoteHost + "/cypher-service");
 			result = vb.decrypt(message.getCypherText(), message.getMaxKeyLength());
 			message.setCypherText(result);
+			message.setTimeCompleted(System.currentTimeMillis());
 			outQueue.put(message.getJobNumber(), message);
 		} catch (MalformedURLException | RemoteException | NotBoundException e) {
 			e.printStackTrace();
+			result = "Error with the RMI service, ensure that it is started correctly";
+			message.setCypherText(result);
+			message.setTimeCompleted(System.currentTimeMillis());
+			outQueue.put(message.getJobNumber(), message);
 		}
 	}
 }

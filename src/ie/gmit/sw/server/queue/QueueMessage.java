@@ -4,6 +4,7 @@ public class QueueMessage {
 	private String jobNumber;
 	private int maxKeyLength;
 	private String text;
+	private long timeCompleted;
 	
 	public QueueMessage(String num, int keyLen, String cypher){
 		this.jobNumber = num;
@@ -30,4 +31,11 @@ public class QueueMessage {
 		this.text = cypherText;
 	}
 
+	public long getTimeCompleted() {
+		return timeCompleted;
+	}
+
+	public void setTimeCompleted(long timeCompleted) {
+		this.timeCompleted = timeCompleted;
+	}
 }

@@ -42,10 +42,16 @@ public class CORBAWorker implements Runnable {
 			vigenereImpl = CORBAVigenereBreakerHelper.narrow(ncRef.resolve_str(name));  //We also downcast the Naming.lookup in RMI
 			result = vigenereImpl.decrypt(message.getCypherText(), message.getMaxKeyLength());
 			message.setCypherText(result);
+			message.setTimeCompleted(System.currentTimeMillis());
 			outQueue.put(message.getJobNumber(), message);
 		}catch (Exception e) {
 			System.out.println("ERROR : " + e) ;
 			e.printStackTrace(System.out);
+			
+			result = "Error with the CORBA service, ensure that it is started correctly";
+			message.setCypherText(result);
+			message.setTimeCompleted(System.currentTimeMillis());
+			outQueue.put(message.getJobNumber(), message);
 		}
 	}
 

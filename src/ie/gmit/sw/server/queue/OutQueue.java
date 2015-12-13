@@ -1,5 +1,7 @@
 package ie.gmit.sw.server.queue;
 
+import java.util.Set;
+
 public interface OutQueue {
 
 	int size();
@@ -13,5 +15,7 @@ public interface OutQueue {
 	QueueMessage put(String key, QueueMessage value);
 
 	QueueMessage remove(String key);
+	
+	Set<String> keySet();
 
 }
