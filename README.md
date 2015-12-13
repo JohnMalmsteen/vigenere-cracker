@@ -14,6 +14,7 @@ Contents:
 3. ie.gmit.server.threads package
 4. ie.gmit.server.queues package
 5. ie.gmit.sw.breaker package
+6. Deployment
 
 1 - index.jsp
 ---
@@ -44,3 +45,7 @@ At current there is a flaw in that if there is no TTL (time to live) on the outq
 5 - ie.gmit.breaker
 ---
 This package contains the interfaces and client side helper classes for the remote objects i.e. the VignereBreaker extends remote interface and the CORBAVigenereBreaker interface with its helper classes etc.
+
+6 - Deployment
+---
+To deploy this web app you should simply drop the distributed .war file into the web apps directory of your tomcat folder, however it will not do anything without connecting to the remote object back end host. To edit the location of this host, in the web.xml file change the RemoteHost value to whatever IP address your remote objects are listening on. 
