@@ -40,7 +40,7 @@ This package contains the queues which manage the user requests both waiting for
 
 This contains interfaces for an InQueue and and OutQueue, as wel as an implementation for each based on a LInkedList and a TreeMap respectively. This package also contains the QueueMessage class which contains the details of the user request and also is used as the return structure which allows the program to use the same object for the in queue and the out queue.
 
-At current there is a flaw in that if there is no TTL (time to live) on the outqueue messages meaning that if the client never collects it it will remain on the out queue forever. I intend to ad a time in millis on the message when it is added to the queue and then periodically sweep the queue and check for messages that havent been collected for 30 seconds or longer or something along those lines.
+There is also a AbandonedMessageCollector.java class here also which deals with messages where the client may never come to collect them, so instead of being removed from out queue they remain on the queue forever and take up server memory, this class implements the Runnable interface and is composed onto the OutQueueImpl and runs every 30 seconds to sweep through the outqueue to remove abandoned messages
 
 5 - ie.gmit.breaker
 ---
